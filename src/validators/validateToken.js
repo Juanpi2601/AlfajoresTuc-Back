@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
+
 const userRequired = (req, res, next) => {
   const { token } = req.cookies
   if(!token) return res.status(401).json('Acceso no autorizado.');

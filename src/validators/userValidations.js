@@ -1,4 +1,5 @@
 import { body } from "express-validator";
+import User from '../models/user.model.js';
 import passRegex from '../helpers/passwordRegex.js';
 
 const userValidations = {
