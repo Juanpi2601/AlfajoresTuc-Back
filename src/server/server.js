@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRoutes from "../routes/user.routes.js";
+import productRoutes from "../routes/product.routes.js"
 
 export const port = process.env.PORT || 8000;
 export const ADMIN_KEY = process.env.ADMIN_KEY;
@@ -26,6 +27,7 @@ app.use(
 
 
 app.use("/user", userRoutes);
+app.use("/productos", productRoutes);
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
