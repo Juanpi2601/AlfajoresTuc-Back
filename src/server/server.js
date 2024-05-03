@@ -27,7 +27,7 @@ app.use(
 
 
 app.use("/user", userRoutes);
-app.use("/productos", productRoutes);
+app.use("/products", productRoutes);
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
