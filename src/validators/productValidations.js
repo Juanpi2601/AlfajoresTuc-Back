@@ -52,7 +52,7 @@ const descriptionValidation = body('descripcion').custom(async (value) => {
 });
 
 const categoryValidation = body('categoria').custom((value) => {
-    const validCategories = ["Alfajores", "Conitos", "Nueces"];
+    const validCategories = ["Alfajores", "Conitos", "Nueces" ,"Cajas","Bombones"];
     if (!validCategories.includes(value)) {
         throw new Error(`${value} no es una categoría válida`);
     }
