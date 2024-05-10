@@ -36,20 +36,20 @@ const priceValidation = body('precio').custom((value) => {
     return true;
 });
 
-// const cantidadValidation = body('cantidad').custom((value) => {
-//     if (!cantidadRegex.test(value.toString())) {
-//         throw new Error('La cantidad ingresada es inválida');
-//     }
+const cantidadValidation = body('cantidad').custom((value) => {
+    if (!cantidadRegex.test(value.toString())) {
+        throw new Error('La cantidad ingresada es inválida');
+    }
 
-//     return true;
-// });
-// const descriptionValidation = body('description').custom(async (value) => {
-//     if (!descriptionRegex.test(value)) {
-//         throw new Error('La descripción ingresada es inválida');
-//     }
+    return true;
+});
+const descriptionValidation = body('descripcion').custom(async (value) => {
+    if (!descriptionRegex.test(value)) {
+        throw new Error('La descripción ingresada es inválida');
+    }
 
-//     return true;
-// });
+    return true;
+});
 
 const categoryValidation = body('categoria').custom((value) => {
     const validCategories = ["Alfajores", "Conitos", "Nueces"];
@@ -82,13 +82,13 @@ export const MenuValidation = {
         .withMessage("El precio no puede estar vacío")
         .custom(priceValidation),
 
-    // cantidad: body("cantidad")
-    //     .notEmpty()
-    //     .withMessage("La cantidad no puede estar vacía")
-    //     .custom(cantidadValidation),
+    cantidad: body("cantidad")
+        .notEmpty()
+        .withMessage("La cantidad no puede estar vacía")
+        .custom(cantidadValidation),
 
-    // description: body("description")
-    //     .notEmpty()
-    //     .withMessage("La descripción no puede estar vacía")
-    //     .custom(descriptionValidation),
+    description: body("description")
+        .notEmpty()
+        .withMessage("La descripción no puede estar vacía")
+        .custom(descriptionValidation),
 }

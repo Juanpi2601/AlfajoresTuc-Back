@@ -1,13 +1,15 @@
 import Product from "../models/product.model.js"
 
 export const createProduct = async (req, res) => {
-    const { nombre, imagenUrl, precio, cantidad, description, categoria } = req.body;
+    const { nombre, imagenUrl, precio, cantidad, descripcion, categoria } = req.body;
 
     try {
         const newProduct = await Product.create({
             nombre: nombre,
             imagenUrl: imagenUrl,
             precio: precio,
+            descripcion: descripcion,
+            cantidad: cantidad,
             categoria: categoria
         });
 
@@ -70,7 +72,7 @@ export const editById = async (req, res) => {
 };
 
 export const getProductsWithOptions = async (req, res) => {
-    const { nombre, precio, categoria } = req.query;
+    const { nombre, precio, categoria, descripcion, cantidad } = req.query;
     const searchQuery = { visible: true };
     let sortQuery = {};
 
@@ -89,6 +91,12 @@ export const getProductsWithOptions = async (req, res) => {
 
     if (categoria) {
         searchQuery.categoria = categoria;
+    }
+    if (descripcion){
+        searchQuery.descripcion = descripcion;
+    }
+    if(cantidad){
+        searchQuery.cantidad = cantidad;
     }
 
     try {
