@@ -30,16 +30,16 @@ const productSchema = new Schema({
         max: [10_000_000, "{VALUE} es un valor invalido"],
         match: [priceRegex, "El precio ingresado es invalido"],
     },
-    // cantidad: {
-    //     type: String,
-    //     required: [true, "Debe ingresar una cantidad"],
-    //     match: [cantidadRegex, "La cantidad ingresada es invalida"],
-    // },
-    // description: {
-    //     type: String,
-    //     required: [true, "Debe ingresar una descripcion"],
-    //     match: [descriptionRegex, "La descripcion ingresada es invalida"],
-    // },
+    cantidad: {
+        type: String,
+        required: [true, "Debe ingresar una cantidad"],
+        match: [cantidadRegex, "La cantidad ingresada es invalida"],
+    },
+    descripcion: {
+        type: String,
+        required: [true, "Debe ingresar una descripcion"],
+        match: [descriptionRegex, "La descripcion ingresada es invalida"],
+    },
     // visible: {
     //     type: Boolean,
     //     default: true,
