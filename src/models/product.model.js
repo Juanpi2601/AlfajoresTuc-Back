@@ -14,7 +14,7 @@ const productSchema = new Schema({
         type: String,
         required: [true, "Debe ingresar una categoria"],
         enum: {
-            values: ["Alfajores", "Conitos", "Nueces"],
+            values: ["Alfajores", "Conitos", "Nueces", "Cajas", "Bombones"],
             message: "{VALUE} no es una categoria valida"
         },
     },
