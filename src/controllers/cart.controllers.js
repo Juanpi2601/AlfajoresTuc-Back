@@ -16,6 +16,7 @@ const addToCart = async (req, res) => {
     const cartProduct = {
       productId: product._id,
       quantity,
+      name: product.nombre,
       price: product.precio
     };
     
@@ -32,6 +33,7 @@ const addToCart = async (req, res) => {
     } else {
       // Si el producto ya existe en el carrito, actualiza su cantidad y precio total
       const existingProductIndex = cart.products.findIndex(item => item.productId.equals(product._id));
+      
       if (existingProductIndex !== -1) {
         cart.products[existingProductIndex].quantity += quantity;
         cart.totalPrice += product.precio * quantity;
@@ -42,7 +44,7 @@ const addToCart = async (req, res) => {
     }
     
     // Guarda el carrito actualizado en la base de datos
-    await cart.save();
+    await cart.save({ name: product.nombre });
     
     res.status(201).json();
   } catch (error) {
