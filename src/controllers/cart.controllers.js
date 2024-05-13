@@ -56,19 +56,27 @@ const addToCart = async (req, res) => {
 // Controlador para obtener el carrito de un usuario
 const getCart = async (req, res) => {
   try {
-    
     const { userId } = req.params;
-    const cart = await Cart.findOne({ userId }).populate('products.productId', 'name price');
+    const cart = await Cart.findOne({ userId }).populate('products.productId', 'nombre price');
     if (!cart) {
-      return res.status(200).json({ message: 'Tu carrito esta vacio' });
+      return res.status(200).json({ message: 'Tu carrito está vacío' });
     }
-    console.log(cart);
-    res.status(200).json(cart);
+
+    // Destructurar el nombre del producto en el carrito
+    const productsWithNames = cart.products.map(item => ({
+      ...item.toObject(),
+      name: item.productId.nombre // Accede al nombre del producto
+    }));
+
+    console.log(productsWithNames);
+    res.status(200).json({ ...cart.toObject(), products: productsWithNames });
   } catch (error) {
     console.error('Error al obtener el carrito:', error);
     res.status(500).json({ message: 'Ha ocurrido un error al obtener el carrito' });
   }
 };
+
+
 
 // Controlador para eliminar un producto del carrito
 const removeFromCart = async (req, res) => {
