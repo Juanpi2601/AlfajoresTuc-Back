@@ -14,18 +14,25 @@ export const sendMail = async (req, res) => {
             },
         });
 
-        const mailOptions = {
-            from: `${name} santillanfacundo43@gmail.com`,
+        const mailOptionsConsultante = {
+            from: "FS <santillanfacundo43@gmail.com>",
             to: email,
-            subject: 'Testeando Nodemailer',
-            text: mensaje
+            subject: 'Consulta recibida exitosamente',
+            text: `Hola ${name},\n\nGracias por tu consulta. Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.\n\nSaludos,\n[FS]`
         };
 
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Correo enviado:', info.response);
-        res.status(200).json({ message: 'Correo enviado correctamente' });
+        const mailOptionsPropietario = {
+            from: `${name} ${email}`,
+            to: "santillanfacundo43@gmail.com",
+            subject: 'Nueva consulta registrada',
+            text: `Se ha recibido una nueva consulta de ${name} (${email}).\n\nMensaje: ${mensaje}`
+        };
+
+        await transporter.sendMail(mailOptionsConsultante);
+        await transporter.sendMail(mailOptionsPropietario);
+
+        res.status(200).json({ message: 'Consulta registrada exitosamente. Se ha enviado un correo de confirmación.' });
     } catch (error) {
-        console.error('Error al enviar el correo:', error);
-        res.status(500).json({ error: 'Error al enviar el correo' });
+        res.status(500).json({ error: 'Error al enviar los correos' });
     }
 };
