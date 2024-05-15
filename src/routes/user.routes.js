@@ -10,6 +10,7 @@ const {
   deleteById,
   admin,
   verifyToken,
+  updatePassword
 } = userControllers;
 import  userRequired  from '../validators/validateToken.js';
 import  userValidations from '../validators/userValidations.js';
@@ -37,5 +38,7 @@ router.delete("/delete/:id", deleteById);
 router.get("/admin", userRequired, admin);
 
 router.get("/verifyToken", verifyToken);
+
+router.patch('/update-password', userRequired, updatePassword);
 
 export default router;
