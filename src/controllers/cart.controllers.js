@@ -16,8 +16,7 @@ const addToCart = async (req, res) => {
     const cartProduct = {
       productId: product._id,
       quantity,
-      name: product.nombre,
-      price: product.precio
+      price: product.precio,      
     };
     
     // Busca el carrito del usuario o crea uno nuevo si no existe
@@ -44,7 +43,7 @@ const addToCart = async (req, res) => {
     }
     
     // Guarda el carrito actualizado en la base de datos
-    await cart.save({ name: product.nombre });
+    await cart.save();
     
     res.status(201).json();
   } catch (error) {
@@ -57,15 +56,16 @@ const addToCart = async (req, res) => {
 const getCart = async (req, res) => {
   try {
     const { userId } = req.params;
-    const cart = await Cart.findOne({ userId }).populate('products.productId', 'nombre price');
+    const cart = await Cart.findOne({ userId }).populate('products.productId', 'nombre price imagenUrl');
     if (!cart) {
+      return res.status(200).json({ message: 'Tu carrito está vacío' });
       return res.status(200).json({ message: 'Tu carrito está vacío' });
     }
 
-    // Destructurar el nombre del producto en el carrito
     const productsWithNames = cart.products.map(item => ({
       ...item.toObject(),
-      name: item.productId.nombre // Accede al nombre del producto
+      name: item.productId.nombre,
+      image: item.productId.imagenUrl
     }));
 
     console.log(productsWithNames);
@@ -77,8 +77,6 @@ const getCart = async (req, res) => {
 };
 
 
-
-// Controlador para eliminar un producto del carrito
 const removeFromCart = async (req, res) => {
   try {
     const { userId, productId } = req.params;
@@ -101,4 +99,50 @@ const removeFromCart = async (req, res) => {
   }
 };
 
-export { addToCart, getCart, removeFromCart };
+const incrementQuantity = async (req, res) => {
+  try {
+    const { userId, productId } = req.body;
+    const cart = await Cart.findOne({ userId });
+    if (!cart) {
+      return res.status(404).json({ message: 'Carrito no encontrado' });
+    }
+    const productIndex = cart.products.findIndex(item => item.productId.equals(productId));
+    if (productIndex === -1) {
+      return res.status(404).json({ message: 'Producto no encontrado en el carrito' });
+    }
+    cart.products[productIndex].quantity += 1;
+    cart.totalPrice += cart.products[productIndex].price;
+    await cart.save();
+    res.status(200).json(cart);
+  } catch (error) {
+    console.error('Error al incrementar la cantidad del producto en el carrito:', error);
+    res.status(500).json({ message: 'Ha ocurrido un error al incrementar la cantidad del producto en el carrito' });
+  }
+};
+
+const decrementQuantity = async (req, res) => {
+  try {
+    const { userId, productId } = req.body;
+    const cart = await Cart.findOne({ userId });
+    if (!cart) {
+      return res.status(404).json({ message: 'Carrito no encontrado' });
+    }
+    const productIndex = cart.products.findIndex(item => item.productId.equals(productId));
+    if (productIndex === -1) {
+      return res.status(404).json({ message: 'Producto no encontrado en el carrito' });
+    }
+    if (cart.products[productIndex].quantity > 1) {
+      cart.products[productIndex].quantity -= 1;
+      cart.totalPrice -= cart.products[productIndex].price;
+      await cart.save();
+      res.status(200).json(cart);
+    } else {
+      res.status(400).json({ message: 'La cantidad del producto no puede ser menor a 1' });
+    }
+  } catch (error) {
+    console.error('Error al decrementar la cantidad del producto en el carrito:', error);
+    res.status(500).json({ message: 'Ha ocurrido un error al decrementar la cantidad del producto en el carrito' });
+  }
+};
+
+export { addToCart, getCart, removeFromCart, incrementQuantity, decrementQuantity};
