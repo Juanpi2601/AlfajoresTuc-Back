@@ -59,6 +59,7 @@ const getCart = async (req, res) => {
     const cart = await Cart.findOne({ userId }).populate('products.productId', 'nombre price imagenUrl');
     if (!cart) {
       return res.status(200).json({ message: 'Tu carrito está vacío' });
+      return res.status(200).json({ message: 'Tu carrito está vacío' });
     }
 
     const productsWithNames = cart.products.map(item => ({

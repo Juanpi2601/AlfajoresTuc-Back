@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from "../routes/user.routes.js";
 import productRoutes from "../routes/product.routes.js"
 import cartRoutes from "../routes/cart.routes.js"
+import sendmailRoutes from "../routes/sendmail.routes.js"
 
 export const port = process.env.PORT || 8000;
 export const ADMIN_KEY = process.env.ADMIN_KEY;
@@ -30,6 +31,7 @@ app.use(
 app.use("/user", userRoutes);
 app.use("/products", productRoutes);
 app.use("/cart",cartRoutes);
+app.use("/sendmail", sendmailRoutes);
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
