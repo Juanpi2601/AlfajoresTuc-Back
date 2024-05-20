@@ -3,14 +3,14 @@ import { Schema, model } from 'mongoose';
 const cartSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'User', // Referencia al modelo de usuario
+    ref: 'User',
     required: true,
     unique: true
   },
   products: [{
     productId: {
       type: Schema.Types.ObjectId,
-      ref: 'Product', // Referencia al modelo de producto
+      ref: 'Product', 
       required: true
     },
     quantity: {
