@@ -51,4 +51,20 @@ export const deleteNovedadById = async (req, res) => {
     }
 };
 
+export const updateNovedadVisibility = async (req, res) => {
+    const { id } = req.params;
+    const { visible } = req.body;
+
+    try {
+        const novedad = await Novedad.findByIdAndUpdate(id, { visible }, { new: true });
+
+        if (!novedad) {
+            return res.status(404).json({ message: 'Novedad no encontrada' });
+        }
+
+        res.status(200).json(novedad);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
 
