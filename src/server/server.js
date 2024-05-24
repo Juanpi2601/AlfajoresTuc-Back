@@ -8,6 +8,7 @@ import userRoutes from "../routes/user.routes.js";
 import productRoutes from "../routes/product.routes.js"
 import cartRoutes from "../routes/cart.routes.js"
 import sendmailRoutes from "../routes/sendmail.routes.js"
+import novedadRoutes from '../routes/novedad.routes.js'
 
 export const port = process.env.PORT || 8000;
 export const ADMIN_KEY = process.env.ADMIN_KEY;
@@ -32,6 +33,7 @@ app.use("/user", userRoutes);
 app.use("/products", productRoutes);
 app.use("/cart",cartRoutes);
 app.use("/sendmail", sendmailRoutes);
+app.use("/novedad", novedadRoutes);
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
