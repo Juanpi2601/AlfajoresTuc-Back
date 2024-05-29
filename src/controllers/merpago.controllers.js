@@ -12,5 +12,5 @@ export async function createPreference(body) {
   } catch (error) {
     console.error('Error creating preference:', error);
     throw error;
-   }
- }      
+}
+}      
