@@ -1,7 +1,6 @@
 import Cart from '../models/cart.model.js';
 import Product from '../models/product.model.js';
 
-// Controlador para agregar productos al carrito
 const addToCart = async (req, res) => {
   try {
     const { userId, product: productofind , quantity } = req.body;
@@ -52,20 +51,31 @@ const addToCart = async (req, res) => {
   }
 };
 
-// Controlador para obtener el carrito de un usuario
 const getCart = async (req, res) => {
   try {
     const { userId } = req.params;
-    const cart = await Cart.findOne({ userId }).populate('products.productId', 'nombre price imagenUrl');
+    const cart = await Cart.findOne({ userId }).populate('products.productId', 'nombre precio imagenUrl');
+    
     if (!cart) {
       return res.status(200).json({ message: 'Tu carrito está vacío' });
     }
 
-    const productsWithNames = cart.products.map(item => ({
-      ...item.toObject(),
-      name: item.productId.nombre,
-      image: item.productId.imagenUrl
-    }));
+    const productsWithNames = cart.products.map(item => {
+      if (item.productId) {
+        return {
+          ...item.toObject(),
+          name: item.productId.nombre,
+          image: item.productId.imagenUrl
+        };
+      } else {
+        console.error('Product ID is null for item:', item);
+        return {
+          ...item.toObject(),
+          name: 'Producto no encontrado',
+          image: ''
+        };
+      }
+    });
 
     console.log(productsWithNames);
     res.status(200).json({ ...cart.toObject(), products: productsWithNames });
@@ -74,7 +84,6 @@ const getCart = async (req, res) => {
     res.status(500).json({ message: 'Ha ocurrido un error al obtener el carrito' });
   }
 };
-
 
 const removeFromCart = async (req, res) => {
   try {
