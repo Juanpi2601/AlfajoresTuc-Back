@@ -10,6 +10,10 @@ const orderSchema = new mongoose.Schema({
     type: String, 
     required: true 
   }, 
+  email: { 
+    type: String, 
+    required: true 
+  }, 
   products: [
     {
       productId: { 
@@ -57,12 +61,14 @@ const orderSchema = new mongoose.Schema({
     type: String, 
     default: 'pendiente' 
   },
+  trackingNumber: { 
+    type: String 
+  },
   createdAt: { 
     type: Date, 
     default: Date.now 
   }
 });
-
 
 const Order = mongoose.model('Order', orderSchema);
 

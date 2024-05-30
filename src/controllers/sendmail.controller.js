@@ -46,9 +46,9 @@ const generateRandomPassword = () => {
       randomPassword += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return randomPassword;
-  };
+};
   
-  export const forgotPasswordController = async (req, res) => {
+export const forgotPasswordController = async (req, res) => {
     const { email, name } = req.body;
   
     try {
@@ -88,4 +88,4 @@ const generateRandomPassword = () => {
       console.error(error);
       res.status(500).json({ error: 'Error al enviar el correo electrónico con la contraseña temporal' });
     }
-  };
+};
