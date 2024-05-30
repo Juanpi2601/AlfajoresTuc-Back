@@ -46,7 +46,6 @@ export const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.find();
 
-        // Transformar los productos en cada orden
         const ordersWithTransformedProducts = orders.map(order => {
             const productsWithNames = order.products.map(item => {
                 if (item.productId) {
@@ -78,3 +77,37 @@ export const getAllOrders = async (req, res) => {
     }
 };
 
+export const deleteOrder = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const order = await Order.findByIdAndDelete(orderId);
+
+    if (!order) {
+        return res.status(404).json({ message: 'Orden no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Orden eliminada exitosamente' });
+  } 
+  catch (error) {
+      console.error('Error al eliminar la orden:', error);
+      res.status(500).json({ message: 'Error al eliminar la orden' });
+  }
+};
+
+export const updateOrderStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(id, { status }, { new: true });
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: 'Pedido no encontrado' });
+    }
+
+    res.status(200).json({ message: 'Estado del pedido actualizado correctamente', order: updatedOrder });
+  } catch (error) {
+    console.error('Error al actualizar el estado del pedido:', error);
+    res.status(500).json({ message: 'Error al actualizar el estado del pedido' });
+  }
+};

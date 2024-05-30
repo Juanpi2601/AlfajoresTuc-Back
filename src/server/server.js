@@ -31,7 +31,6 @@ app.use(
   })
 );
 
-
 app.use("/user", userRoutes);
 app.use("/products", productRoutes);
 app.use("/cart",cartRoutes);
@@ -40,6 +39,7 @@ app.use("/novedad", novedadRoutes);
 app.use("/address", addressRoutes);
 app.use("/mercadopago", merpagoRoutes);
 app.use("/order", orderRoutes);
+
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
