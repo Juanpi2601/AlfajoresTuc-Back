@@ -19,7 +19,7 @@ export const createOrder = async (req, res) => {
 
     const order = new Order({
       userId,
-      name: user.name,
+      userName: user.name,
       products: cart.products.map(item => ({
         productId: item.productId._id,
         productName: item.productId.nombre,
