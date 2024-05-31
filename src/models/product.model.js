@@ -31,7 +31,7 @@ const productSchema = new Schema({
         match: [priceRegex, "El precio ingresado es invalido"],
     },
     cantidad: {
-        type: String,
+        type: Number,
         required: [true, "Debe ingresar una cantidad"],
         match: [cantidadRegex, "La cantidad ingresada es invalida"],
     },
