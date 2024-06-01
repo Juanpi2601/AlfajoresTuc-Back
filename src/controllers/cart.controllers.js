@@ -94,18 +94,32 @@ export const removeFromCart = async (req, res) => {
   try {
     const { userId, productId } = req.params;
     const cart = await Cart.findOne({ userId });
+
     if (!cart) {
       return res.status(404).json({ message: 'Carrito no encontrado' });
     }
+
     const productIndex = cart.products.findIndex(item => item.productId.equals(productId));
     if (productIndex === -1) {
       return res.status(404).json({ message: 'Producto no encontrado en el carrito' });
     }
+
     const product = cart.products[productIndex];
+    const dbProduct = await Product.findById(productId);
+
+    if (!dbProduct) {
+      return res.status(404).json({ message: 'Producto no encontrado en la base de datos' });
+    }
+
+    // Devolver la cantidad del producto al inventario
+    dbProduct.cantidad += product.quantity;
+    await dbProduct.save();
+
     cart.products.splice(productIndex, 1);
     cart.totalPrice -= product.price * product.quantity;
     await cart.save();
-    res.status(200).json({ message: 'Producto eliminado del carrito correctamente' });
+
+    res.status(200).json({ message: 'Producto eliminado del carrito correctamente', returnedQuantity: product.quantity });
   } catch (error) {
     console.error('Error al eliminar producto del carrito:', error);
     res.status(500).json({ message: 'Ha ocurrido un error al eliminar el producto del carrito' });
