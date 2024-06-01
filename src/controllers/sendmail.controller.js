@@ -11,21 +11,21 @@ export const sendMail = async (req, res) => {
             port: 587,
             secure: false,
             auth: {
-                user: "santillanfacundo43@gmail.com",
-                pass: "slfzmzpidqymjeux",
+                user: "alfajoresdeltucuman71gmail.com",
+                pass: "yslathbwedwftwbz",
             },
         });
 
         const mailOptionsConsultante = {
-            from: "FS <santillanfacundo43@gmail.com>",
+            from: "alfajoresdeltucuman71gmail.com",
             to: email,
             subject: 'Consulta recibida exitosamente',
-            text: `Hola ${name},\n\nGracias por tu consulta. Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.\n\nSaludos,\n[FS]`
+            text: `Hola ${name},\n\nGracias por tu consulta. Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.\n\nSaludos,\nAlfajores Del Tucumán`
         };
 
         const mailOptionsPropietario = {
             from: `${name} ${email}`,
-            to: "santillanfacundo43@gmail.com",
+            to: "alfajoresdeltucuman71gmail.com",
             subject: 'Nueva consulta registrada',
             text: `Se ha recibido una nueva consulta de ${name} (${email}).\n\nMensaje: ${mensaje}`
         };
@@ -69,16 +69,16 @@ export const forgotPasswordController = async (req, res) => {
         port: 587,
         secure: false,
         auth: {
-          user: 'santillanfacundo43@gmail.com',
-          pass: 'slfzmzpidqymjeux',
+          user: 'alfajoresdeltucuman71gmail.com',
+          pass: 'yslathbwedwftwbz',
         },
       });
   
       const mailOptions = {
-        from: 'santillanfacundo43@gmail.com',
+        from: 'alfajoresdeltucuman71gmail.com',
         to: `${name} ${email}`,
         subject: 'Contraseña Temporal',
-        text: `Hola ${user.name},\n\nTu nueva contraseña temporal es: ${randomPassword}\n\nPor favor, inicia sesión con esta contraseña y cámbiala lo antes posible.\n\nSaludos,\nTu Aplicación`,
+        text: `Hola ${user.name},\n\nTu nueva contraseña temporal es: ${randomPassword}\n\nPor favor, inicia sesión con esta contraseña y cámbiala lo antes posible.\n\nSaludos,\nAlfajores Del Tucumán`,
       };
   
       await transporter.sendMail(mailOptions);
