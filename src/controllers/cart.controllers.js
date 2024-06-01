@@ -4,48 +4,51 @@ import Product from '../models/product.model.js';
 export const addToCart = async (req, res) => {
   try {
     const { userId, product: productToFind, quantity } = req.body;
-    
+
     if (quantity <= 0) {
       return res.status(400).json({ message: 'La cantidad debe ser mayor que cero' });
     }
-    
+
     const product = await Product.findById(productToFind._id);
     if (!product) {
       return res.status(404).json({ message: 'Producto no encontrado' });
     }
-    
+
     if (product.cantidad < quantity) {
       return res.status(400).json({ message: 'No hay suficiente cantidad disponible del producto' });
     }
-    
+
     const cartProduct = {
       productId: product._id,
       quantity,
-      price: product.precio,      
+      price: product.precio,
     };
-    
+
     let cart = await Cart.findOne({ userId });
     if (!cart) {
       cart = new Cart({
         userId,
         products: [cartProduct],
-        totalPrice: cartProduct.price * quantity
+        totalPrice: cartProduct.price * quantity,
       });
     } else {
       const existingProduct = cart.products.find(item => item.productId.equals(product._id));
       if (existingProduct) {
+        if (existingProduct.quantity + quantity > product.cantidad) {
+          return res.status(400).json({ message: 'No se puede agregar más de la cantidad disponible en el inventario' });
+        }
         existingProduct.quantity += quantity;
       } else {
         cart.products.push(cartProduct);
       }
       cart.totalPrice += product.precio * quantity;
     }
-    
+
     product.cantidad -= quantity;
     await product.save();
-    
+
     await cart.save();
-    
+
     res.status(201).json();
   } catch (error) {
     console.error('Error al agregar producto al carrito:', error);
@@ -124,15 +127,19 @@ export const incrementQuantity = async (req, res) => {
       return res.status(404).json({ message: 'Producto no encontrado en el carrito' });
     }
 
-    product.quantity += 1;
-    cart.totalPrice += product.price;
-
     const dbProduct = await Product.findById(productId);
 
     if (!dbProduct) {
       return res.status(404).json({ message: 'Producto no encontrado en la base de datos' });
     }
 
+    // Verificar si la cantidad total después del incremento es mayor que la cantidad en stock
+    if (dbProduct.cantidad === 0) {
+      return res.status(400).json({ message: 'El producto está agotado en el inventario' });
+    }
+
+    product.quantity += 1;
+    cart.totalPrice += product.price;
     dbProduct.cantidad -= 1;
 
     await dbProduct.save();
@@ -160,7 +167,7 @@ export const decrementQuantity = async (req, res) => {
       return res.status(404).json({ message: 'Producto no encontrado en el carrito' });
     }
 
-    if (product.quantity > 1) {
+    if (product.quantity > 0) {
       product.quantity -= 1;
       cart.totalPrice -= product.price;
 
@@ -184,7 +191,6 @@ export const decrementQuantity = async (req, res) => {
     res.status(500).json({ message: 'Ha ocurrido un error al decrementar la cantidad del producto en el carrito' });
   }
 };
-
 
 export const confirmarPedido = async (req, res) => {
   try {
