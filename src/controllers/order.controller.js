@@ -138,7 +138,7 @@ export const sendShippingConfirmationEmail = async (order) => {
       from: "alfajoresdeltucuman71@gmail.com",
       to: order.email, 
       subject: 'Confirmación de Envío',
-      text: `Hola ${order.userName},\n\nTu pedido ha sido enviado. La dirección de envío es: ${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.province}, ${order.shippingAddress.postalCode}.\n\nNúmero de seguimiento: ${trackingNumber}\n\nGracias por tu compra.\n\nSaludos,\nAlfajores Del Tucumán`,
+      text: `Hola ${order.userName},\n\nTu pedido ha sido enviado. La dirección de envío es: ${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.province}, ${order.shippingAddress.postalCode}.\n\nNúmero de seguimiento: ${trackingNumber}\n\nGracias por elegirnos.\n\nSaludos\nAlfajores Del Tucumán.`,
     };
 
     await transporter.sendMail(mailOptions);
@@ -166,7 +166,7 @@ export const sendCompletionConfirmationEmail = async (order) => {
       from: "alfajoresdeltucuman71@gmail.com",
       to: order.email,
       subject: 'Orden Completada',
-      text: `Hola ${order.userName},\n\nTu pedido ha sido completado. Gracias por tu compra.\n\nSaludos,\nAlfajores Del Tucumán`,
+      text: `Hola ${order.userName},\n\nTu pedido ha sido completado. Gracias por elegirnos.\n\nSaludos\nAlfajores Del Tucumán.`,
     };
 
     await transporter.sendMail(mailOptions);
