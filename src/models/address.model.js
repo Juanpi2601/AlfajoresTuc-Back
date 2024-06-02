@@ -36,4 +36,10 @@ const addressSchema = new Schema(
   { timestamps: true }
 );
 
+addressSchema.post('findOneAndDelete', async function(doc) {
+  if (doc) {
+    await Address.deleteMany({ userId: doc._id });
+  }
+});
+
 export default model('Address', addressSchema);

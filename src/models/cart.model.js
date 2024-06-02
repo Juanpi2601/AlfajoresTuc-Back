@@ -32,6 +32,10 @@ const cartSchema = new Schema({
   }
 });
 
-
+cartSchema.post('findOneAndDelete', async function(doc) {
+  if (doc) {
+    await Cart.deleteMany({ userId: doc._id });
+  }
+});
 
 export default model('Cart', cartSchema);

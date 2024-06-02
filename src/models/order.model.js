@@ -70,6 +70,12 @@ const orderSchema = new mongoose.Schema({
   }
 });
 
+orderSchema.post('findOneAndDelete', async function(doc) {
+  if (doc) {
+    await Order.deleteMany({ userId: doc._id });
+  }
+});
+
 const Order = mongoose.model('Order', orderSchema);
 
 export default Order;
