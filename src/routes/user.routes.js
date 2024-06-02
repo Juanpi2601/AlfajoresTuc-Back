@@ -1,17 +1,16 @@
 import { Router } from 'express' 
-import userControllers from '../controllers/user.controllers.js';
-const {
-  getAll,
-  getById,
-  create,
-  login,
-  logout,
-  editById,
-  deleteById,
-  admin,
-  verifyToken,
-  updatePassword
-} = userControllers;
+import { 
+        getAll,
+        getById,
+        create,
+        login,
+        logout,
+        editById,
+        deleteById,
+        admin,
+        verifyToken,
+        updatePassword
+} from '../controllers/user.controllers.js';
 import  userRequired  from '../validators/validateToken.js';
 import  userValidations from '../validators/userValidations.js';
 import validateFields from '../validators/validateFields.js';

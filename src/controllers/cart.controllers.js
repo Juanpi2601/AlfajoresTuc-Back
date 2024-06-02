@@ -62,7 +62,7 @@ export const getCart = async (req, res) => {
     const cart = await Cart.findOne({ userId }).populate('products.productId', 'nombre precio imagenUrl');
     
     if (!cart) {
-      return res.status(200).json({ message: 'Tu carrito está vacío' });
+      return res.status(200).json({ message: 'Tu carrito está vacío', products: [] });
     }
 
     const productsWithNames = cart.products.map(item => {
@@ -203,36 +203,5 @@ export const decrementQuantity = async (req, res) => {
   } catch (error) {
     console.error('Error al decrementar la cantidad del producto en el carrito:', error);
     res.status(500).json({ message: 'Ha ocurrido un error al decrementar la cantidad del producto en el carrito' });
-  }
-};
-
-export const confirmarPedido = async (req, res) => {
-  try {
-    const { cartProducts } = req.body;
-
-    for (const { productId, quantity } of cartProducts) {
-      const product = await Product.findById(productId);
-
-      if (!product) {
-        console.error('Producto no encontrado en la base de datos');
-        continue; // Continuar con el siguiente producto si el actual no se encuentra
-      }
-
-      if (product.cantidad < quantity) {
-        console.error('No hay suficiente cantidad disponible del producto:', product.nombre);
-        // Manejo de la situación en la que la cantidad en el carrito es mayor que la disponible en la base de datos
-        continue; // Continuar con el siguiente producto si no hay suficiente cantidad disponible
-      }
-
-      product.cantidad -= quantity;
-      await product.save();
-    }
-
-    // Aquí podrías realizar otras operaciones relacionadas con la confirmación del pedido, como crear una orden en la base de datos, etc.
-
-    res.status(200).json({ message: 'Pedido confirmado exitosamente' });
-  } catch (error) {
-    console.error('Error al confirmar el pedido:', error);
-    res.status(500).json({ message: 'Ha ocurrido un error al confirmar el pedido' });
   }
 };

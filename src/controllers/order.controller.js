@@ -129,13 +129,13 @@ export const sendShippingConfirmationEmail = async (order) => {
       port: 587,
       secure: false,
       auth: {
-        user: 'alfajoresdeltucuman71@gmail.com',
-        pass: 'yslathbwedwftwbz',
+        user: "alfajoresdeltucuman71@gmail.com",
+                pass: "yslathbwedwftwbz",
       },
     });
 
     const mailOptions = {
-      from: 'alfajoresdeltucuman71@gmail.com',
+      from: "alfajoresdeltucuman71@gmail.com",
       to: order.email, 
       subject: 'Confirmación de Envío',
       text: `Hola ${order.userName},\n\nTu pedido ha sido enviado. La dirección de envío es: ${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.province}, ${order.shippingAddress.postalCode}.\n\nNúmero de seguimiento: ${trackingNumber}\n\nGracias por tu compra.\n\nSaludos,\nAlfajores Del Tucumán`,
@@ -157,13 +157,13 @@ export const sendCompletionConfirmationEmail = async (order) => {
       port: 587,
       secure: false,
       auth: {
-        user: 'alfajoresdeltucuman71@gmail.com',
-        pass: 'yslathbwedwftwbz',
+        user: "alfajoresdeltucuman71@gmail.com",
+        pass: "yslathbwedwftwbz",
       },
     });
 
     const mailOptions = {
-      from: 'alfajoresdeltucuman71@gmail.com',
+      from: "alfajoresdeltucuman71@gmail.com",
       to: order.email,
       subject: 'Orden Completada',
       text: `Hola ${order.userName},\n\nTu pedido ha sido completado. Gracias por tu compra.\n\nSaludos,\nAlfajores Del Tucumán`,

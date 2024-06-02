@@ -11,13 +11,13 @@ export const sendMail = async (req, res) => {
             port: 587,
             secure: false,
             auth: {
-                user: "alfajoresdeltucuman71gmail.com",
+                user: "alfajoresdeltucuman71@gmail.com",
                 pass: "yslathbwedwftwbz",
             },
         });
 
         const mailOptionsConsultante = {
-            from: "alfajoresdeltucuman71gmail.com",
+            from: "alfajoresdeltucuman71@gmail.com",
             to: email,
             subject: 'Consulta recibida exitosamente',
             text: `Hola ${name},\n\nGracias por tu consulta. Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.\n\nSaludos,\nAlfajores Del Tucumán`
@@ -25,7 +25,7 @@ export const sendMail = async (req, res) => {
 
         const mailOptionsPropietario = {
             from: `${name} ${email}`,
-            to: "alfajoresdeltucuman71gmail.com",
+            to: "alfajoresdeltucuman71@gmail.com",
             subject: 'Nueva consulta registrada',
             text: `Se ha recibido una nueva consulta de ${name} (${email}).\n\nMensaje: ${mensaje}`
         };
@@ -69,13 +69,13 @@ export const forgotPasswordController = async (req, res) => {
         port: 587,
         secure: false,
         auth: {
-          user: 'alfajoresdeltucuman71gmail.com',
-          pass: 'yslathbwedwftwbz',
+          user: "alfajoresdeltucuman71@gmail.com",
+                pass: "yslathbwedwftwbz",
         },
       });
   
       const mailOptions = {
-        from: 'alfajoresdeltucuman71gmail.com',
+        from: "alfajoresdeltucuman71@gmail.com",
         to: `${name} ${email}`,
         subject: 'Contraseña Temporal',
         text: `Hola ${user.name},\n\nTu nueva contraseña temporal es: ${randomPassword}\n\nPor favor, inicia sesión con esta contraseña y cámbiala lo antes posible.\n\nSaludos,\nAlfajores Del Tucumán`,
