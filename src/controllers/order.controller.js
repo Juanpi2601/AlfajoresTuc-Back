@@ -138,7 +138,7 @@ export const sendShippingConfirmationEmail = async (order) => {
       from: "alfajoresdeltucuman71@gmail.com",
       to: order.email, 
       subject: 'Confirmación de Envío',
-      text: `Hola ${order.userName},\n\nTu pedido ha sido enviado. La dirección de envío es: ${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.province}, ${order.shippingAddress.postalCode}.\n\nNúmero de seguimiento: ${trackingNumber}\n\nGracias por elegirnos.\n\nSaludos\nAlfajores Del Tucumán.`,
+      text: `Hola ${order.userName},\n\nTu pedido ha sido enviado. La dirección de envío es: ${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.province}, ${order.shippingAddress.postalCode}.\n\nCopia el número de seguimiento de Andreani para ver su pedido\n\nNúmero de seguimiento: ${trackingNumber}\n\nGracias por elegirnos.\n\nSaludos\nAlfajores Del Tucumán.`,
     };
 
     await transporter.sendMail(mailOptions);
@@ -166,7 +166,7 @@ export const sendCompletionConfirmationEmail = async (order) => {
       from: "alfajoresdeltucuman71@gmail.com",
       to: order.email,
       subject: 'Orden Completada',
-      text: `Hola ${order.userName},\n\nTu pedido ha sido completado. Gracias por elegirnos.\n\nSaludos\nAlfajores Del Tucumán.`,
+      text: `Hola ${order.userName},\n\nTu pedido ha sido completado, en el lapso de 24hs recibirá un correo electronico del envío del paquete con su dirección y su numero de seguimiento.\n\nCualquier consulta, no dude en escribirnos vía WhatsApp, o respondiendo este mail.\n\nGracias por elegirnos.\n\nSaludos\nAlfajores Del Tucumán.`,
     };
 
     await transporter.sendMail(mailOptions);
