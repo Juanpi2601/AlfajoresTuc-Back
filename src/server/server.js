@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: 'https://alfajores-oxoftkwke-juan-pablos-projects-31045952.vercel.app',
+    origin: 'https://main--tranquil-frangollo-9c076b.netlify.app',
     credentials: true,
     withCredentials: true,
   })
