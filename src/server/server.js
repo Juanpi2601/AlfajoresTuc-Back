@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: 'https://main--tranquil-frangollo-9c076b.netlify.app',
+    origin: 'https://alfajoresdeltucuman.netlify.app',
     credentials: true,
     withCredentials: true,
   })
