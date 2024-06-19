@@ -85,6 +85,8 @@ export const login = async (req, res) => {
       httpOnly: true,
       sameSite: "strict",
       maxAge: 4 * 60 * 60 * 1000,
+      domain: 'https://alfajoresdeltucuman.netlify.app', 
+      path: '/', 
     });
     res.status(201).json({
       id: userFound._id,
