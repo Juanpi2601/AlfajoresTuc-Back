@@ -14,6 +14,7 @@ import {
 import  userRequired  from '../validators/validateToken.js';
 import  userValidations from '../validators/userValidations.js';
 import validateFields from '../validators/validateFields.js';
+import cookieParser from 'cookie-parser';
 
 
 const router = Router();
@@ -37,6 +38,8 @@ router.delete("/delete/:id", deleteById);
 router.get("/admin", userRequired, admin);
 
 router.post("/verify-token", verifyToken);
+
+router.use(cookieParser());
 
 router.patch('/update-password', userRequired, updatePassword);
 

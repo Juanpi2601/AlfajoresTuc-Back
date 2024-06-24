@@ -1,17 +1,29 @@
 import jwt from "jsonwebtoken";
-export const TOKEN = process.env.TOKEN_SECRET;
+import User from "../models/user.model.js"; 
+export const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
-export const verifyToken = (req, res) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
-
-  if (!token) {
-    return res.status(401).json({ message: "Acceso denegado" });
-  }
-
+export const verifyToken = async (req, res) => {
   try {
-    const verified = jwt.verify(token, TOKEN);
-    res.status(200).json(verified);
+    const { token } = req.cookies;
+
+    if (!token) return res.status(401).json({ error: "No autorizado" });
+
+    jwt.verify(token, TOKEN_SECRET, async (error, user) => {
+      if (error) return res.status(401).json({ error: "No autorizado" });
+
+      const userFound = await User.findById(user.id);
+      if (!userFound) return res.status(401).json({ error: "No autorizado" });
+
+      return res.json({
+        id: userFound._id,
+        name: userFound.name,
+        userName: userFound.userName,
+        email: userFound.email,
+        role: userFound.role,
+      });
+    });
   } catch (error) {
-    res.status(400).json({ message: "Token inválido" });
+    console.log(error);
+    res.status(500).json({ error: error.message });
   }
 };
