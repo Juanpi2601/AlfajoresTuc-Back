@@ -175,7 +175,10 @@ export const verifyToken = async (req, res) => {
     const token = req.cookies.token;
     console.log("Token recibido:", token);
 
-    if (!token) return res.status(401).json({ error: "No autorizado" });
+    if (!token) {
+      console.log("Token no proporcionado");
+      return res.status(401).json({ error: "No autorizado" });
+    }
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
       if (error) {
