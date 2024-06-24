@@ -27,7 +27,6 @@ app.use(
   cors({
     origin: 'https://alfatuc.netlify.app',
     credentials: true,
-    withCredentials: true,
   })
 );
 
