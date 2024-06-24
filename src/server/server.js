@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: 'https://alfajoresdeltuc.netlify.app',
+    origin: 'https://alfatuc.netlify.app',
     credentials: true,
     withCredentials: true,
   })
