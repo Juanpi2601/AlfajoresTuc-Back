@@ -168,11 +168,13 @@ export const admin = async (req, res) => {
   }
 };
 
+
 export const verifyToken = async (req, res) => {
   try {
     const { token } = req.cookies;
 
     if (!token) return res.status(401).json({ error: "No autorizado" });
+
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
       if (error) return res.status(401).json({ error: "No autorizado" });
 
