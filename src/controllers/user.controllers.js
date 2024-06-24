@@ -171,16 +171,24 @@ export const admin = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   try {
-    const { token } = req.cookies;
+    const token = req.cookies.token;
+    console.log("Token recibido:", token);
 
     if (!token) return res.status(401).json({ error: "No autorizado" });
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
-      if (error) return res.status(401).json({ error: "No autorizado" });
+      if (error) {
+        console.log("Error al verificar el token:", error);
+        return res.status(401).json({ error: "No autorizado" });
+      }
 
       const userFound = await User.findById(user.id);
-      if (!userFound) return res.status(401).json({ error: "No autorizado" });
+      if (!userFound) {
+        console.log("Usuario no encontrado");
+        return res.status(401).json({ error: "No autorizado" });
+      }
 
+      console.log("Token verificado correctamente para el usuario:", userFound);
       return res.json({
         id: userFound._id,
         name: userFound.name,
@@ -190,7 +198,7 @@ export const verifyToken = async (req, res) => {
       });
     });
   } catch (error) {
-    console.log(error);
+    console.log("Error interno del servidor:", error);
     res.status(500).json({ error: error.message });
   }
 };
