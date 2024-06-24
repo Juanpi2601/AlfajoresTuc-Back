@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 export const TOKEN = process.env.TOKEN_SECRET;
 
 const userRequired = (req, res, next) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
+  const token = req.cookies.token;
 
   if (!token) {
     return res.status(401).json({ message: "Acceso denegado" });
