@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-export const TOKEN = process.env.TOKEN_SECRET;
+export const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 const userRequired = (req, res, next) => {
   const token = req.cookies.token;
@@ -9,7 +9,7 @@ const userRequired = (req, res, next) => {
   }
 
   try {
-    const verified = jwt.verify(token, TOKEN);
+    const verified = jwt.verify(token, TOKEN_SECRET);
     req.user = verified;
     next();
   } catch (error) {
@@ -17,4 +17,4 @@ const userRequired = (req, res, next) => {
   }
 };
 
-export default userRequired;
+export default userRequired;
