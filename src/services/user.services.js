@@ -4,38 +4,67 @@ import jwt from "jsonwebtoken";
 export const TOKEN = process.env.TOKEN_SECRET;
 
 export const getAllUserService = async () => {
-  return await User.find();
+  try {
+    const users = await User.find();
+    return users;
+  } catch (error) {
+    throw new Error("Error fetching users: " + error.message);
+  }
 };
 
 export const getUserByIdService = async (id) => {
-  return await User.findById(id);
+  try {
+    const user = await User.findById(id);
+    return user;
+  } catch (error) {
+    throw new Error("Error fetching user by ID: " + error.message);
+  }
 };
 
 export const createUserService = async (newUser) => {
-  const createUser = new User(newUser);
-  return await createUser.save();
+  try {
+    
+    const salt = await bcrypt.genSalt(10);
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+
+    const createUser = new User(newUser);
+    await createUser.save();
+    return createUser;
+  } catch (error) {
+    throw new Error("Error creating user: " + error.message);
+  }
 };
 
 export const createAccessToken = async (payload) => {
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     jwt.sign(
       payload,
       TOKEN,
-      {
-        expiresIn: "4h",
-      },
+      { expiresIn: "4h" },
       (error, token) => {
-        if (error) reject(error);
+        if (error) {
+          reject("Error generating access token: " + error.message);
+        }
         resolve(token);
       }
     );
   });
 };
 
-export const editUserByIdService = async (id, payload, queryOptions) => {
-  return await User.findByIdAndUpdate(id, payload, queryOptions);
+export const editUserByIdService = async (id, payload, queryOptions = { new: true }) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(id, payload, queryOptions);
+    return updatedUser;
+  } catch (error) {
+    throw new Error("Error updating user: " + error.message);
+  }
 };
 
 export const deleteUserService = async (id) => {
-  return User.findByIdAndDelete(id);
+  try {
+    await User.findByIdAndDelete(id);
+    return { message: "User successfully deleted" };
+  } catch (error) {
+    throw new Error("Error deleting user: " + error.message);
+  }
 };
