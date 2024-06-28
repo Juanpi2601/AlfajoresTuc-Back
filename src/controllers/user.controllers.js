@@ -82,7 +82,6 @@ export const login = async (req, res) => {
 
     const token = await createAccessToken({ id: userFound._id });
 
-    res.cookie("token", token, { httpOnly: true, sameSite: "Strict" });  // Asegúrate de que la cookie esté configurada correctamente
     res.status(201).json({
       token,
       id: userFound._id,
@@ -94,9 +93,10 @@ export const login = async (req, res) => {
       updatedAt: userFound.updatedAt,
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+    res.status(500).json({ error: error.message });
+  }
 };
+
 
 export const logout = (req, res) => {
   try {
@@ -173,27 +173,16 @@ export const admin = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
   try {
-    const token = req.cookies.token;
-    console.log("Token recibido:", token);
+    const token = req.headers.authorization.split(' ')[1];
 
-    if (!token) {
-      console.log("Token no proporcionado");
-      return res.status(401).json({ error: "No autorizado" });
-    }
+    if (!token) return res.status(401).json({ error: "No autorizado" });
 
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
-      if (error) {
-        console.log("Error al verificar el token:", error);
-        return res.status(401).json({ error: "No autorizado" });
-      }
+      if (error) return res.status(401).json({ error: "No autorizado" });
 
       const userFound = await User.findById(user.id);
-      if (!userFound) {
-        console.log("Usuario no encontrado");
-        return res.status(401).json({ error: "No autorizado" });
-      }
+      if (!userFound) return res.status(401).json({ error: "No autorizado" });
 
-      console.log("Token verificado correctamente para el usuario:", userFound);
       return res.json({
         id: userFound._id,
         name: userFound.name,
@@ -203,10 +192,11 @@ export const verifyToken = async (req, res) => {
       });
     });
   } catch (error) {
-    console.log("Error interno del servidor:", error);
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
+
 
 export const updatePassword = async (req, res) => {
   try {
