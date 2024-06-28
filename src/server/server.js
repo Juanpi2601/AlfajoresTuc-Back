@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import '../dbConnection/dbConnection.js';
 import morgan from 'morgan';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
+// import cookieParser from 'cookie-parser';
 import userRoutes from "../routes/user.routes.js";
 import productRoutes from "../routes/product.routes.js"
 import cartRoutes from "../routes/cart.routes.js"
@@ -20,13 +20,13 @@ export const USER_KEY = process.env.USER_KEY;
 const app = express();
 
 dotenv.config();
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
     origin: 'https://alfatuc.netlify.app',
-    credentials: true,
+    credentials: false,
   })
 );
 
