@@ -4,7 +4,7 @@ export const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 export const verifyToken = async (req, res) => {
   try {
-    const { token } = req.cookies;
+    const token = req.headers.authorization.split(' ')[1];
 
     if (!token) return res.status(401).json({ error: "No autorizado" });
 
@@ -27,3 +27,5 @@ export const verifyToken = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
