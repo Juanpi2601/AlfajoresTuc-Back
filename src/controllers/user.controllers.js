@@ -51,8 +51,9 @@ export const create = async (req, res) => {
     });
     const userSaved = await newUser.save();
     const token = await createAccessToken({ id: userSaved._id });
-    res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
+
     res.status(201).json({
+      token,
       id: userSaved._id,
       name: userSaved.name,
       userName: userSaved.userName,
@@ -97,12 +98,8 @@ export const login = async (req, res) => {
   }
 };
 
-
 export const logout = (req, res) => {
   try {
-    res.cookie("token", "", {
-      expires: new Date(0),
-    });
     return res.sendStatus(200);
   } catch (error) {
     res.status(500).json({ error: error.message });
