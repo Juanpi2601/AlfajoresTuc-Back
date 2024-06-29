@@ -176,7 +176,7 @@ export const verifyToken = async (req, res) => {
   if (!token) return res.status(401).send('Access Denied');
 
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    const verified = jwt.verify(token, TOKEN_SECRET);
     req.user = verified;
     res.status(200).send('Token is valid');
   } catch (err) {
