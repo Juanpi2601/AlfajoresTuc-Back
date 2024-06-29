@@ -172,9 +172,7 @@ export const verifyToken = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
 
-    if (!token) {
-      return res.status(401).json({ error: "No autorizado, token no proporcionado" });
-    }
+    if (!token) return res.status(401).json({ error: "No autorizado, token no proporcionado" });
 
     jwt.verify(token, TOKEN_SECRET, async (error, decoded) => {
       if (error) {
@@ -189,6 +187,7 @@ export const verifyToken = async (req, res) => {
       return res.json({
         id: userFound._id,
         name: userFound.name,
+        password: userFound.password,
         userName: userFound.userName,
         email: userFound.email,
         role: userFound.role,
