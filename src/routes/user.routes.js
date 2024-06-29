@@ -35,7 +35,7 @@ router.delete("/delete/:id", userRequired, deleteById);
 
 router.get("/admin", userRequired, admin);
 
-router.get('/verify-token', verifyToken);
+router.get('/verify-token', userRequired, verifyToken);
 
 router.patch('/update-password', userRequired, updatePassword);
 
