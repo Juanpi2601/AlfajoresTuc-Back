@@ -169,23 +169,18 @@ export const admin = async (req, res) => {
 
 
 export const verifyToken = async (req, res) => {
-  const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+  const token = req.headers['authorization'].split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ message: 'No token provided.' });
+    return res.status(401).send('Access Denied');
   }
 
   try {
-    const decoded = jwt.verify(token, TOKEN_SECRET);
-    const user = await User.findById(decoded.id, { password: 0 }); 
-
-    if (!user) {
-      return res.status(404).json({ message: 'No user found.' });
-    }
-
-    res.status(200).json(user);
-  } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized.' });
+    const verified = jwt.verify(token, TOKEN_SECRET);
+    req.user = verified;
+    res.status(200).send('Token is valid');
+  } catch (err) {
+    res.status(401).send('Invalid Token');
   }
 };
 
