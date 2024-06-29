@@ -26,7 +26,7 @@ app.use(morgan("dev"));
 app.use(
   cors({
     origin: 'https://alfatuc.netlify.app',
-    credentials: false,
+    credentials: true,
   })
 );
 
