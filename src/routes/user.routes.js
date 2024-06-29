@@ -22,7 +22,7 @@ router.get("/getAll", getAll);
 
 router.get("/getById/:id", getById);
 
-router.post("/login", login);
+router.post("/login", login, userRequired);
 
 router.post("/logout", logout);
 
