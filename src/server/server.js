@@ -26,7 +26,9 @@ app.use(morgan("dev"));
 app.use(
   cors({
     origin: 'https://alfatuc.netlify.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
