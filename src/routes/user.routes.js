@@ -40,3 +40,4 @@ router.get("/verify-token", userRequired, verifyToken);
 router.patch('/update-password', userRequired, updatePassword);
 
 export default router;
+
